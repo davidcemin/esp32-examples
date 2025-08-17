@@ -1,5 +1,10 @@
 cmake_minimum_required(VERSION 3.20.0)
 
+# Use JTAG for flashing/debugging (no serial port needed)
+set(BOARD_FLASH_RUNNER openocd CACHE STRING "" FORCE)
+set(BOARD_DEBUG_RUNNER openocd CACHE STRING "" FORCE)
+
+
 # Force the board + toolchain (overrides any cached value)
 set(BOARD "esp32s3_devkitm/esp32s3/procpu" CACHE STRING "Zephyr board target" FORCE)
 set(ZEPHYR_TOOLCHAIN_VARIANT "espressif" CACHE STRING "Zephyr toolchain" FORCE)

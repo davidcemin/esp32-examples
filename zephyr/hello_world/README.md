@@ -59,7 +59,7 @@ build/zephyr/zephyr.bin
 
 ---
 
-## Flash
+## Flash (UART via esptool)
 
 Connect the board and find your port (macOS example):
 ```bash
@@ -78,6 +78,27 @@ What this does:
 - Sets your serial port once with `--esp-device ...`
 
 > If you see a port-open error, hold **BOOT**, tap **EN** (reset), release **BOOT**, then retry.
+
+---
+
+## Flash with OpenOCD (USB-JTAG)
+
+If you prefer flashing over the on-board USB-JTAG instead of UART:
+
+1. Make sure `OPENOCD_SCRIPTS` points to your OpenOCD install:
+   ```bash
+   export OPENOCD_SCRIPTS="$(dirname "$(dirname "$(command -v openocd)")")/share/openocd/scripts"
+   ```
+
+2. From **inside `build/`**, run:
+   ```bash
+   openocd -s "$OPENOCD_SCRIPTS"      -f interface/esp_usb_jtag.cfg -f target/esp32s3.cfg      -c "adapter speed 20000" -c "init" -c "halt"      -c "program_esp zephyr/zephyr.bin 0x10000 verify"      -c "reset run" -c "shutdown"
+   ```
+
+Notes:
+- This only flashes the **application binary** at `0x10000`.
+- Bootloader and partition table must already be present (e.g. from a prior UART flash).
+- For quick dev loops, this method avoids BOOT/EN button presses.
 
 ---
 
@@ -125,4 +146,4 @@ make -j
 
 ---
 
-✅ That’s it. Build with **CMake/Make**, flash with **`west -r esp32`**, and monitor over serial.
+✅ That’s it. Build with **CMake/Make**, flash with **`west -r esp32`** (UART) or **OpenOCD** (USB-JTAG), and monitor over serial.
