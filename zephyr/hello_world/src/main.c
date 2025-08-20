@@ -5,11 +5,14 @@
  */
 
 #include <stdio.h>
+#include <zephyr/kernel.h>
 
 int main(void)
 {
-	printf("Hello World! %s\n", CONFIG_BOARD_TARGET);
-    printf("This is the new line\n");
+	 while (1) {
+        printk("Hello, World!\n");
+        k_sleep(K_SECONDS(1));
+    }
 
 	return 0;
 }
