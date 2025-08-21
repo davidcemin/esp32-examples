@@ -1,0 +1,5 @@
+{
+  "terminal.integrated.env.osx": {
+    "OPENOCD_SCRIPTS": "/Users/david/.espressif/tools/openocd-esp32/v0.12.0-esp32-20250422/openocd-esp32/share/openocd/scripts"
+  }
+}

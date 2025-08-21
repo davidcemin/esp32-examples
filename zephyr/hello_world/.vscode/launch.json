@@ -1,0 +1,69 @@
+//{
+//  "version": "0.2.0",
+//  "configurations": [
+//    {
+//      "name": "ESP32-S3 Debug (bare)",
+//      "type": "cppdbg",
+//      "request": "launch",
+//      "MIMode": "gdb",
+//      //"miDebuggerPath": "${env:ZEPHYR_SDK_INSTALL_DIR}/xtensa/espressif_esp32s3_zephyr-elf/bin/xtensa-espressif_esp32s3_zephyr-elf-gdb",
+//      "miDebuggerPath": "/Users/david/.espressif/tools/xtensa-esp-elf-gdb/16.2_20250324/xtensa-esp-elf-gdb/bin/xtensa-esp32s3-elf-gdb",
+//      "program": "${workspaceFolder}/build/zephyr/zephyr.elf",
+//      "cwd": "${workspaceFolder}",
+//      "externalConsole": false,
+//
+//      // You keep OpenOCD running manually
+//      "miDebuggerServerAddress": "localhost:3333",
+//
+//      "setupCommands": [
+//        { "description": "Connect to target", "text": "target extended-remote localhost:3333" },
+//        { "description": "Load symbols", "text": "symbol-file ${workspaceFolder}/build/zephyr/zephyr.elf" }
+//      ]
+//
+//
+//      //"setupCommands": [
+//      //  { "description": "Enable pretty-printing", "text": "-enable-pretty-printing", "ignoreFailures": true },
+//      //  { "description": "Connect to target", "text": "target extended-remote localhost:3333" },
+//      //  { "description": "Load symbols", "text": "symbol-file ${workspaceFolder}/build/zephyr/zephyr.elf" }
+//     // ]
+//    }
+//  ]
+//}
+//
+
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "ESP32-S3 Debug (Attach Only)",
+      "type": "cppdbg",
+      "request": "launch",
+      "MIMode": "gdb",
+      "miDebuggerPath": "/Users/david/.espressif/tools/xtensa-esp-elf-gdb/16.2_20250324/xtensa-esp-elf-gdb/bin/xtensa-esp32s3-elf-gdb",
+      "program": "${workspaceFolder}/build/zephyr/zephyr.elf",
+      "cwd": "${workspaceFolder}",
+      "externalConsole": false,
+
+
+      "setupCommands": [
+        { "text": "set remotetimeout 20" },
+        { "text": "target extended-remote :3333" },
+        { "text": "monitor reset halt" }
+      ],
+
+      "postRemoteConnectCommands": [
+        { "text": "set breakpoint auto-hw on" },
+        { "text": "set remote hardware-breakpoint-limit 2" },
+        { "text": "set remote hardware-watchpoint-limit 2" },
+        { "text": "set breakpoint always-inserted on"},
+        { "text": "hb src/main.c:13" }
+      ],
+
+      "stopAtEntry": true,
+
+      // prevents VSCode from waiting for some breakpoint/RTOS nonsense
+      "launchCompleteCommand": "None"
+    }
+  ]
+}
+

@@ -32,3 +32,10 @@ set(CMAKE_BUILD_TYPE Debug CACHE STRING "Build type" FORCE)
 # Override C flags for debug builds (keep some optimization for stepping)
 set(CMAKE_C_FLAGS_DEBUG "-Og -g3" CACHE STRING "" FORCE)
 set(CMAKE_CXX_FLAGS_DEBUG "-Og -g3" CACHE STRING "" FORCE)
+
+# Force unstripped binaries
+set(CMAKE_STRIP "" CACHE STRING "" FORCE)
+
+# sometimes espressif does not like dwarf5
+set(CMAKE_C_FLAGS_DEBUG "-Og -g3 -gdwarf-4" CACHE STRING "" FORCE)
+
